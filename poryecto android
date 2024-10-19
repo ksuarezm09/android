@@ -1,0 +1,38 @@
+package com.example.todolistapp
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskList: ArrayList<String>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val addButton: Button = findViewById(R.id.addButton)
+        val taskEditText: EditText = findViewById(R.id.taskEditText)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
+        taskList = arrayListOf()
+        taskAdapter = TaskAdapter(taskList)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = taskAdapter
+
+        addButton.setOnClickListener {
+            val task = taskEditText.text.toString()
+            if (task.isNotEmpty()) {
+                taskList.add(task)
+                taskAdapter.notifyDataSetChanged()
+                taskEditText.text.clear()
+            }
+        }
+    }
+}
